@@ -11,6 +11,11 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @SpringBootApplication
@@ -29,14 +34,21 @@ class FindTheDogController {
     @PostMapping("/analyze")
     public ResponseEntity<Resource> analyzeImage(@RequestParam("image") MultipartFile image) {
         try {
-            // You can process the image here, for now we just return the same image
+            // Convert the uploaded image to BufferedImage
+            BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(image.getBytes()));
 
-            // Convert MultipartFile to ByteArrayResource
-            ByteArrayResource resource = new ByteArrayResource(image.getBytes());
+            // Convert the image to black and white
+            BufferedImage blackAndWhiteImage = convertToBlackAndWhite(originalImage);
+
+            // Convert the processed BufferedImage back to a byte array
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(blackAndWhiteImage, "jpg", baos);
+            ByteArrayResource resource = new ByteArrayResource(baos.toByteArray());
 
             // Prepare the response headers and return the image
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + image.getOriginalFilename());
+            headers.add(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=processed_" + image.getOriginalFilename());
             headers.add(HttpHeaders.CONTENT_TYPE, image.getContentType());
 
             return new ResponseEntity<>(resource, headers, HttpStatus.OK);
@@ -44,5 +56,18 @@ class FindTheDogController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    // Function to convert a BufferedImage to black and white
+    private BufferedImage convertToBlackAndWhite(BufferedImage originalImage) {
+        BufferedImage blackAndWhiteImage = new BufferedImage(
+                originalImage.getWidth(), originalImage.getHeight(),
+                BufferedImage.TYPE_BYTE_GRAY); // Set to grayscale
+
+        Graphics2D graphics = blackAndWhiteImage.createGraphics();
+        graphics.drawImage(originalImage, 0, 0, null);
+        graphics.dispose();
+
+        return blackAndWhiteImage;
     }
 }
