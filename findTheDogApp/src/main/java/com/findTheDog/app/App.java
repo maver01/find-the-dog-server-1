@@ -5,18 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.KafkaException;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Base64;
 
 @SpringBootApplication
 public class App {
@@ -31,43 +26,35 @@ public class App {
 @CrossOrigin(origins = "*") // Enable CORS for all origins
 class FindTheDogController {
 
+    private final KafkaTemplate<String, String> kafkaTemplate;
+
+    // Inject the Kafka template to send messages
+    public FindTheDogController(KafkaTemplate<String, String> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
     @PostMapping("/analyze")
-    public ResponseEntity<Resource> analyzeImage(@RequestParam("image") MultipartFile image) {
+    public ResponseEntity<String> analyzeImage(@RequestParam("image") MultipartFile image) {
         try {
-            // Convert the uploaded image to BufferedImage
-            BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(image.getBytes()));
+            // Convert image to byte array
+            byte[] imageBytes = image.getBytes();
 
-            // Convert the image to black and white
-            BufferedImage blackAndWhiteImage = convertToBlackAndWhite(originalImage);
+            // Encode the byte array as Base64 string to send via Kafka
+            String encodedImage = Base64.getEncoder().encodeToString(imageBytes);
 
-            // Convert the processed BufferedImage back to a byte array
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(blackAndWhiteImage, "jpg", baos);
-            ByteArrayResource resource = new ByteArrayResource(baos.toByteArray());
-
-            // Prepare the response headers and return the image
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION,
-                    "attachment; filename=processed_" + image.getOriginalFilename());
-            headers.add(HttpHeaders.CONTENT_TYPE, image.getContentType());
-
-            return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+            // Send the encoded image to Kafka (to the Python microservice)
+            try {
+                kafkaTemplate.send("image-processing-topic", encodedImage);
+                // Acknowledge that the image was sent
+                return new ResponseEntity<>("Image sent to processing queue", HttpStatus.OK);
+            } catch (KafkaException e) {
+                // Handle Kafka exception when the node is not available
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
-
-    // Function to convert a BufferedImage to black and white
-    private BufferedImage convertToBlackAndWhite(BufferedImage originalImage) {
-        BufferedImage blackAndWhiteImage = new BufferedImage(
-                originalImage.getWidth(), originalImage.getHeight(),
-                BufferedImage.TYPE_BYTE_GRAY); // Set to grayscale
-
-        Graphics2D graphics = blackAndWhiteImage.createGraphics();
-        graphics.drawImage(originalImage, 0, 0, null);
-        graphics.dispose();
-
-        return blackAndWhiteImage;
     }
 }
