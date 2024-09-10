@@ -2,7 +2,7 @@
 
 This repository contains the code related to the server, handling the requests of image processing from the frontend, for the find-the-dog project.
 
-## Additional documentation: Apache Kafka in Ubuntu
+## Additional documentation: Apache Kafka on Ubuntu
 
 To install and use Apache Kafka on Ubuntu, follow these detailed steps (from ChatGPT):
 
