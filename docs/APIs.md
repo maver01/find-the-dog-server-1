@@ -18,6 +18,8 @@ API requests typically handle communication between the frontend (e.g: React) an
   curl http://localhost:8080/api/processed-image
   ```
 
+  Use `curl http://localhost:8080/api/processed-image -v | jq` to add more info to the request.
+
 Example: `/api/v1/users/{id}` – to get user information by ID.
 
 - Spring boot:
