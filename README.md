@@ -39,7 +39,7 @@ Main directory tree:
 
 ## Run the code
 
-Assuming maven, java and spring-boot are installed and running, as well as kafka and zookeeper (see additional documentation under _docs_), run:
+Assuming maven, java and spring-boot are installed, and kafka and zookeeper are running (see additional documentation under _docs_), run:
 
 ```
 mvn spring-boot:run
