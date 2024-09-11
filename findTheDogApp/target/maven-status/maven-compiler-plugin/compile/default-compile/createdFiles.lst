@@ -1,2 +1,4 @@
 com/findTheDog/app/FindTheDogController.class
+com/findTheDog/app/ImageController.class
 com/findTheDog/app/App.class
+com/findTheDog/app/KafkaImageConsumer.class

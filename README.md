@@ -63,7 +63,7 @@ Start ZooKeeper:
 ZooKeeper is required for Kafka to manage distributed brokers. Start ZooKeeper with the default configuration:
 
 ```
-bin/zookeeper-server-start.sh config/zookeeper.properties
+sudo bin/zookeeper-server-start.sh config/zookeeper.properties
 ```
 
 Keep this terminal open for ZooKeeper.
@@ -71,7 +71,7 @@ Keep this terminal open for ZooKeeper.
 Open a New Terminal and Start Kafka Broker:
 
 ```
-bin/kafka-server-start.sh config/server.properties
+sudo bin/kafka-server-start.sh config/server.properties
 ```
 
 Keep this terminal open for Kafka.
@@ -97,6 +97,7 @@ bin/kafka-console-producer.sh --topic test --bootstrap-server localhost:9092
 ```
 
 Type a message and press Enter to send it.
+
 Consume Test Messages:
 
 ```
