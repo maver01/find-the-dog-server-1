@@ -1,4 +1,4 @@
-# Additional documentation: API requests
+# API requests
 
 From ChatGPT. Exaples use spring-boot and react.
 

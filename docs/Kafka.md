@@ -1,4 +1,4 @@
-## Additional documentation: Apache Kafka on Ubuntu
+## Apache Kafka on Ubuntu
 
 To install and use Apache Kafka on Ubuntu, follow these detailed steps (from ChatGPT):
 
