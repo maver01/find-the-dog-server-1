@@ -101,3 +101,9 @@ bin/kafka-console-consumer.sh --topic test --from-beginning --bootstrap-server l
 ```
 
 You should see the message you typed earlier.
+
+Delete a topic:
+
+```
+bin/kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic test
+```

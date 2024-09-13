@@ -1,17 +1,16 @@
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
+    properties:
+      bootstrap-servers: localhost:9092
+
     consumer:
-      group-id: find-the-dog-group
-      auto-offset-reset: earliest
-      enable-auto-commit: true
-      auto-commit-interval: 1000
-      # key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      # value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      max-poll-records: 10
+      properties:
+        group-id: find-the-dog-group
+        auto-offset-reset: earliest
+        enable-auto-commit: true
+        auto-commit-interval: 1000
+        max-poll-records: 10
     producer:
-      # key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      # value-serializer: org.apache.kafka.common.serialization.StringSerializer
       properties:
         retries: 0 # Disable retries for producers
         request.timeout.ms: 10000 # Timeout for requests to the broker
@@ -19,3 +18,8 @@ spring:
         retry.backoff.ms: 1000 # Time to wait before retrying after a failed attempt
         reconnect.backoff.ms: 10000 # Time to wait before attempting to reconnect to the broker
         connections.max.idle.ms: 60000 # Maximum idle time for connections before closing them
+    topics:
+      image-processing-topic:
+        properties:
+          cleanup.policy: delete
+          retention.ms: 2000
