@@ -1,4 +1,6 @@
-## Apache Kafka on Ubuntu
+# Apache Kafka on Ubuntu
+
+## Installation and basic usage
 
 To install and use Apache Kafka on Ubuntu, follow these detailed steps (from ChatGPT):
 
@@ -106,4 +108,18 @@ Delete a topic:
 
 ```
 bin/kafka-topics.sh --delete --bootstrap-server localhost:9092 --topic test
+```
+
+## Alter configuration
+
+Describe dynamic configuration of a topic:
+
+```
+bin/kafka-configs.sh --topic image-processing-topic --bootstrap-server localhost:9092 --describe
+```
+
+Alter dynamic configuration:
+
+```
+bin/kafka-configs.sh --alter --topic image-processing-topic --bootstrap-server localhost:9092 --add-config delete.retention.ms=100
 ```
