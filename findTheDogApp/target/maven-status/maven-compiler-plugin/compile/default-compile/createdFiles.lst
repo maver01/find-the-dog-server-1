@@ -1,3 +1,4 @@
+com/findTheDog/app/KafkaProducerConfig.class
 com/findTheDog/app/ImageController.class
 com/findTheDog/app/KafkaImageProducer.class
 com/findTheDog/app/App.class

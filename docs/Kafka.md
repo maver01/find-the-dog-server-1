@@ -118,8 +118,14 @@ Describe dynamic configuration of a topic:
 bin/kafka-configs.sh --topic image-processing-topic --bootstrap-server localhost:9092 --describe
 ```
 
-Alter dynamic configuration:
+Alter dynamic configuration of a topic:
 
 ```
 bin/kafka-configs.sh --alter --topic image-processing-topic --bootstrap-server localhost:9092 --add-config delete.retention.ms=100
+```
+
+Alter dynamic configuration of the server (broker). --entity-name 0 refers to the broker with broker-id=0:
+
+```
+bin/kafka-configs.sh --alter --bootstrap-server localhost:9092 --entity-type brokers --entity-name 0 --add-config message.max.bytes=104857600
 ```

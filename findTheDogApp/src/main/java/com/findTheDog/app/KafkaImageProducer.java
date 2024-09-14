@@ -1,5 +1,3 @@
-//docs: https://docs.spring.io/spring-kafka/reference/kafka/sending-messages.html
-
 package com.findTheDog.app;
 
 import org.springframework.kafka.core.KafkaTemplate;
@@ -8,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +26,8 @@ public class KafkaImageProducer {
     }
 
     @PostMapping("/analyze")
-    public ResponseEntity<String> analyzeImage(@RequestParam("image") MultipartFile image) {
+    public ResponseEntity<String> analyzeImage(@RequestParam("image") MultipartFile image,
+            @RequestParam("requestId") String requestId) {
         try {
             // Convert image to byte array
             byte[] imageBytes = image.getBytes();
@@ -39,9 +37,8 @@ public class KafkaImageProducer {
 
             // Send the encoded image to Kafka (to the Python microservice)
             try {
-                kafkaTemplate.send("image-processing-topic", encodedImage);
-                // Acknowledge that the image was sent
-                logger.info("Image sent to processing queue");
+                kafkaTemplate.send("image-processing-topic", requestId, encodedImage);
+                logger.info("Image with requestId {} sent to processing queue", requestId);
                 return new ResponseEntity<>("Image sent to processing queue", HttpStatus.OK);
             } catch (KafkaException e) {
                 // Handle Kafka exception when the node is not available
