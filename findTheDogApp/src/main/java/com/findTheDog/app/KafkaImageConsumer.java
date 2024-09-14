@@ -7,18 +7,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
-import java.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
 public class KafkaImageConsumer {
 
-    private final ImageController imageController;
+    private final ImageLabelController imageLabelController;
     private final Logger logger = LoggerFactory.getLogger(KafkaImageConsumer.class);
 
-    public KafkaImageConsumer(ImageController imageController) {
-        this.imageController = imageController;
+    public KafkaImageConsumer(ImageLabelController imageLabelController) {
+        this.imageLabelController = imageLabelController;
     }
 
     @KafkaListener(topics = "image-output-topic", groupId = "find-the-dog-group")
@@ -26,12 +25,11 @@ public class KafkaImageConsumer {
         logger.info("Received processed image and request id from Kafka");
 
         // Decode the Base64-encoded image
-        byte[] imageBytes = Base64.getDecoder().decode(message);
         logger.info("Image with requestId {} received from processing queue", requestId);
 
         // Update the processed image in ImageController
-        imageController.updateProcessedImage(requestId, imageBytes);
+        imageLabelController.updateProcessedLabel(requestId, message);
 
-        logger.info("Processed image updated in ImageController");
+        logger.info("Processed result updated in ImageLabelController");
     }
 }
