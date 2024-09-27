@@ -39,6 +39,8 @@ OpenTelemetry is a powerful observability framework for collecting logs, traces,
 
 ## Grafana
 
+[docs](https://grafana.com/docs/grafana/latest/setup-grafana/installation/debian/)
+
 ## Open Telemetry
 
 ## Jaeger

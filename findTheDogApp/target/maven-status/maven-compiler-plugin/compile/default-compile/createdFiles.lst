@@ -1,5 +1,6 @@
-com/findTheDog/app/ImageLabelController.class
-com/findTheDog/app/KafkaProducerConfig.class
-com/findTheDog/app/KafkaImageProducer.class
 com/findTheDog/app/App.class
 com/findTheDog/app/KafkaImageConsumer.class
+com/findTheDog/app/ImageLabelController.class
+com/findTheDog/app/KafkaProducerConfig.class
+com/findTheDog/app/prometheus/MetricsService.class
+com/findTheDog/app/KafkaImageProducer.class
