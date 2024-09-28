@@ -37,9 +37,46 @@ OpenTelemetry is a powerful observability framework for collecting logs, traces,
 
 [docs](https://prometheus.io/docs/prometheus/latest/getting_started/)
 
+Installed through official documentation guide. Can be run with:
+
+```
+# Start Prometheus.
+# By default, Prometheus stores its database in ./data (flag --storage.tsdb.path).
+./prometheus --config.file=prometheus.yml
+```
+
+`prometheus.yml` is the configuration file. To scrape metrics from a source, add:
+
+```
+# A scrape configuration containing the endpoints to scrape:
+scrape_configs:
+  # Job for scraping your Python microservice
+  - job_name: "python-image-microprocessing"
+    static_configs:
+      - targets: ["localhost:8000"]
+        labels:
+          group: "python-image-microprocessing"
+  - job_name: "find-the-dog-java-server"
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ["localhost:8080"]  # server is running on this port
+        labels:
+          group: "find-the-dog-java-server"
+```
+
+Visit `localhost:9090` (or selected port) on the browser to use Prometheus UI, use `localhost:9090/metrics` to check whan metrics are being sent.
+
 ## Grafana
 
 [docs](https://grafana.com/docs/grafana/latest/setup-grafana/installation/debian/)
+
+Installed through official documentation guide. Can be run with:
+
+```
+sudo systemctl start grafana-server
+```
+
+Visit `http://localhost:3000/` (or selected port) on the browser to use Grafana UI.
 
 ## Open Telemetry
 
