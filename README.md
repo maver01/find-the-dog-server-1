@@ -4,7 +4,7 @@ This repository contains the code related to the server, handling the requests o
 
 ## Description
 
-The code handles the the requests from the frontend, by implementing an API that can receiving images from the post requests at frontend, and redirecting them to a queueing system through a kafka topic, that is later processed by an independent python microservice module that process the images. The processed images are then received by consuming from a second kafka topic and made available to the frontend through API request.
+The code handles the requests from the frontend, by implementing an API that can receiving images from the post requests at frontend, and redirecting them to a queueing system through a kafka topic, that is later processed by an independent python microservice module that process the images. The processed images are then received by consuming from a second kafka topic and made available to the frontend through API request.
 
 Main directory tree:
 
@@ -29,12 +29,13 @@ Main directory tree:
 - KafkaImageConsumer: Consumes the processed images produced by the independent processing microservice.
 - ImageController: Sends the processed image to the frontend, through API request.
 
- Post request handling and kafka producer are syncronous services. Kafka consumer and GET service are asyncronous.
+Post request handling and kafka producer are synchronous services. Kafka consumer and GET service are asynchronous.
 
 ## Run the code
 
-Assuming maven, java and spring-boot are installed, and kafka and zookeeper are running (see additional documentation under _docs_), run:
-
+Run with docker: 
 ```
-mvn spring-boot:run
-```
+mvn clean package spring-boot:repackage
+docker compose build
+docker compose up
+``` 
