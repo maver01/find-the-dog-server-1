@@ -1,6 +1,0 @@
-/home/maver02/Development/find-the-dog-project/find-the-dog-server-1/findTheDogApp/src/main/java/com/findTheDog/app/App.java
-/home/maver02/Development/find-the-dog-project/find-the-dog-server-1/findTheDogApp/src/main/java/com/findTheDog/app/telemetry/MetricsService.java
-/home/maver02/Development/find-the-dog-project/find-the-dog-server-1/findTheDogApp/src/main/java/com/findTheDog/app/KafkaProducerConfig.java
-/home/maver02/Development/find-the-dog-project/find-the-dog-server-1/findTheDogApp/src/main/java/com/findTheDog/app/KafkaImageProducer.java
-/home/maver02/Development/find-the-dog-project/find-the-dog-server-1/findTheDogApp/src/main/java/com/findTheDog/app/KafkaImageConsumer.java
-/home/maver02/Development/find-the-dog-project/find-the-dog-server-1/findTheDogApp/src/main/java/com/findTheDog/app/ImageLabelController.java
