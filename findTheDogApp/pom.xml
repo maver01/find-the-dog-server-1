@@ -16,7 +16,17 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <release.train.version>2020.0.4</release.train.version>
+    <spring-cloud-sleuth-otel.version>1.0.0-M12</spring-cloud-sleuth-otel.version>
   </properties>
+
+
+  <repositories>
+    <repository>
+      <id>spring-milestones</id>
+      <url>https://repo.spring.io/milestone</url>
+    </repository>
+  </repositories>
 
   <!-- Add Spring Boot Parent -->
   <parent>

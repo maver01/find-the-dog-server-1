@@ -5,7 +5,7 @@ import org.springframework.kafka.KafkaException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.findTheDog.app.prometheus.MetricsService;
+import com.findTheDog.app.telemetry.MetricsService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -32,8 +32,9 @@ public class KafkaImageProducer {
     @PostMapping("/analyze")
     public ResponseEntity<String> analyzeImage(@RequestParam("image") MultipartFile image,
             @RequestParam("requestId") String requestId) {
-        try {
-            // increment the gauge for images being processed
+
+        try { // make the span current
+              // increment the gauge for images being processed
             metricsService.incrementImagesInProcess();
 
             String encodedImage = encodeImage(image);
@@ -45,6 +46,7 @@ public class KafkaImageProducer {
             logger.error("Failed to read image file.", e);
             // send error to Prometheus
             metricsService.incrementErrorProducerCounter();
+            // record exception in the span
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to read image file.");
         } catch (KafkaException e) {

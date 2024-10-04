@@ -1,4 +1,4 @@
-package com.findTheDog.app.prometheus;
+package com.findTheDog.app.telemetry;
 
 import org.springframework.stereotype.Component;
 import io.micrometer.core.instrument.Counter;
