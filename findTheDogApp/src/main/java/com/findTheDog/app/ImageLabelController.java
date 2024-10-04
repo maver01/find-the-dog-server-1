@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000") // Enable CORS for this origin
+//@CrossOrigin(origins = {"http://172.18.0.4:3000", "http:frontend:3000"}) // Enable CORS for this origin
 public class ImageLabelController {
 
     private final Logger logger = LoggerFactory.getLogger(ImageLabelController.class);
