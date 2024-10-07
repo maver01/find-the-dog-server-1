@@ -1,10 +1,10 @@
 services:
 
-  find-the-dog-server:
+  api-server:
     build: ./
     environment:
-      OTEL_SERVICE_NAME: "find-the-dog-server"
-      # OTEL_RESOURCE_ATTRIBUTES: "service=find-the-dog-server,env=dev"
+      OTEL_SERVICE_NAME: "api-server"
+      # OTEL_RESOURCE_ATTRIBUTES: "service=api-server,env=dev"
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://collector:4318"
       # Logs are disabled by default
       OTEL_LOGS_EXPORTER: "otlp"
@@ -13,7 +13,7 @@ services:
     networks:
       - find_the_dog_network
     depends_on:
-      - collector
+     - collector
 
 
   collector:

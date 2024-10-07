@@ -17,7 +17,7 @@ import java.util.Base64;
 
 @RestController
 @RequestMapping("/api")
-// @CrossOrigin(origins = "http://172.18.0.4:3000") // Enable CORS for all origins
+@CrossOrigin(origins = "localhost:3000")
 public class KafkaImageProducer {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
